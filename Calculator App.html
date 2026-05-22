@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>Real Calculator App</title>
+
+<!-- Bootstrap -->
+
+<link
+href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+rel="stylesheet">
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+
+    min-height:100vh;
+
+    background:#e9ecef;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    font-family:Arial;
+
+    transition:0.3s;
+
+    padding:20px;
+
+}
+
+/* CALCULATOR */
+
+.calculator{
+
+    width:100%;
+
+    max-width:400px;
+
+    background:white;
+
+    padding:20px;
+
+    border-radius:20px;
+
+    box-shadow:0px 0px 20px rgba(0,0,0,0.2);
+
+    transition:0.3s;
+
+}
+
+/* HEADER */
+
+.header{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    margin-bottom:20px;
+
+}
+
+.header h2{
+
+    font-size:28px;
+
+    color:#111;
+
+    margin:0;
+
+}
+
+/* DISPLAY */
+
+#display{
+
+    width:100%;
+
+    height:80px;
+
+    border:none;
+
+    border-radius:15px;
+
+    background:#f8f9fa;
+
+    text-align:right;
+
+    padding:15px;
+
+    font-size:35px;
+
+    margin-bottom:20px;
+
+    outline:none;
+
+    font-weight:bold;
+
+}
+
+/* BUTTON */
+
+.btn-calc{
+
+    width:100%;
+
+    height:65px;
+
+    border:none;
+
+    border-radius:15px;
+
+    font-size:24px;
+
+    transition:0.3s;
+
+    font-weight:bold;
+
+}
+
+/* NUMBER */
+
+.number{
+
+    background:#f1f3f5;
+
+}
+
+.number:hover{
+
+    background:#dfe3e6;
+
+}
+
+/* OPERATOR */
+
+.operator{
+
+    background:#0d6efd;
+
+    color:white;
+
+}
+
+.operator:hover{
+
+    background:#0b5ed7;
+
+}
+
+/* EQUAL */
+
+.equal{
+
+    background:#198754;
+
+    color:white;
+
+}
+
+.equal:hover{
+
+    background:#157347;
+
+}
+
+/* CLEAR */
+
+.clear{
+
+    background:#dc3545;
+
+    color:white;
+
+}
+
+.clear:hover{
+
+    background:#bb2d3b;
+
+}
+
+/* DARK MODE */
+
+.dark{
+
+    background:#121212;
+
+}
+
+.dark .calculator{
+
+    background:#1e1e1e;
+
+}
+
+.dark .header h2{
+
+    color:white;
+
+}
+
+.dark #display{
+
+    background:#2b2b2b;
+
+    color:white;
+
+}
+
+.dark .number{
+
+    background:#333;
+
+    color:white;
+
+}
+
+.dark .number:hover{
+
+    background:#444;
+
+}
+
+/* HISTORY */
+
+.history{
+
+    margin-top:20px;
+
+    background:#f8f9fa;
+
+    padding:15px;
+
+    border-radius:15px;
+
+    max-height:150px;
+
+    overflow-y:auto;
+
+}
+
+.history h5{
+
+    margin-bottom:10px;
+
+}
+
+.dark .history{
+
+    background:#2b2b2b;
+
+    color:white;
+
+}
+
+/* MOBILE */
+
+@media(max-width:500px){
+
+    .calculator{
+
+        padding:15px;
+
+    }
+
+    #display{
+
+        font-size:28px;
+
+    }
+
+    .btn-calc{
+
+        height:55px;
+
+        font-size:20px;
+
+    }
+
+    .header h2{
+
+        font-size:22px;
+
+    }
+
+}
+
+</style>
+
+</head>
+
+<body id="body">
+
+<div class="calculator">
+
+<!-- HEADER -->
+
+<div class="header">
+
+<h2>
+🧮 Calculator
+</h2>
+
+<button
+class="btn btn-dark"
+onclick="darkMode()">
+
+🌙
+
+</button>
+
+</div>
+
+<!-- DISPLAY -->
+
+<input
+type="text"
+id="display"
+readonly>
+
+<!-- BUTTONS -->
+
+<div class="container-fluid">
+
+<div class="row g-2">
+
+<div class="col-3">
+<button
+class="btn-calc clear"
+onclick="clearDisplay()">
+AC
+</button>
+</div>
+
+<div class="col-3">
+<button
+class="btn-calc clear"
+onclick="deleteLast()">
+⌫
+</button>
+</div>
+
+<div class="col-3">
+<button
+class="btn-calc operator"
+onclick="appendValue('%')">
+%
+</button>
+</div>
+
+<div class="col-3">
+<button
+class="btn-calc operator"
+onclick="appendValue('/')">
+÷
+</button>
+</div>
+
+<div class="col-3">
+<button
+class="btn-calc number"
+onclick="appendValue('7')">
+7
+</button>
+</div>
+
+<div class="col-3">
+<button
+class="btn-calc number"
+onclick="appendValue('8')">
+8
+</button>
+</div>
+
+<div class="col-3">
+<button
+class="btn-calc number"
+onclick="appendValue('9')">
+9
+</button>
+</div>
+
+<div class="col-3">
+<button
+class="btn-calc operator"
+onclick="appendValue('*')">
+×
+</button>
+</div>
+
+<div class="col-3">
+<button
+class="btn-calc number"
+onclick="appendValue('4')">
+4
+</button>
+</div>
+
+<div class="col-3">
+<button
+class="btn-calc number"
+onclick="appendValue('5')">
+5
+</button>
+</div>
+
+<div class="col-3">
+<button
+class="btn-calc number"
+onclick="appendValue('6')">
+6
+</button>
+</div>
+
+<div class="col-3">
+<button
+class="btn-calc operator"
+onclick="appendValue('-')">
+-
+</button>
+</div>
+
+<div class="col-3">
+<button
+class="btn-calc number"
+onclick="appendValue('1')">
+1
+</button>
+</div>
+
+<div class="col-3">
+<button
+class="btn-calc number"
+onclick="appendValue('2')">
+2
+</button>
+</div>
+
+<div class="col-3">
+<button
+class="btn-calc number"
+onclick="appendValue('3')">
+3
+</button>
+</div>
+
+<div class="col-3">
+<button
+class="btn-calc operator"
+onclick="appendValue('+')">
++
+</button>
+</div>
+
+<div class="col-3">
+<button
+class="btn-calc operator"
+onclick="squareRoot()">
+√
+</button>
+</div>
+
+<div class="col-3">
+<button
+class="btn-calc number"
+onclick="appendValue('0')">
+0
+</button>
+</div>
+
+<div class="col-3">
+<button
+class="btn-calc number"
+onclick="appendValue('.')">
+.
+</button>
+</div>
+
+<div class="col-3">
+<button
+class="btn-calc equal"
+onclick="calculate()">
+=
+</button>
+</div>
+
+</div>
+
+</div>
+
+<!-- HISTORY -->
+
+<div class="history">
+
+<h5>
+📜 History
+</h5>
+
+<div id="history"></div>
+
+</div>
+
+</div>
+
+<script>
+
+/* DISPLAY */
+
+let display =
+document.getElementById("display");
+
+/* HISTORY */
+
+let historyBox =
+document.getElementById("history");
+
+/* DARK MODE */
+
+let dark = false;
+
+function darkMode(){
+
+let body =
+document.getElementById("body");
+
+if(dark == false){
+
+    body.classList.add("dark");
+
+    dark = true;
+
+}
+
+else{
+
+    body.classList.remove("dark");
+
+    dark = false;
+
+}
+
+}
+
+/* APPEND */
+
+function appendValue(value){
+
+display.value += value;
+
+}
+
+/* CLEAR */
+
+function clearDisplay(){
+
+display.value = "";
+
+}
+
+/* DELETE */
+
+function deleteLast(){
+
+display.value =
+display.value.slice(0,-1);
+
+}
+
+/* SQRT */
+
+function squareRoot(){
+
+try{
+
+display.value =
+Math.sqrt(display.value);
+
+}
+
+catch{
+
+alert("Invalid Input");
+
+}
+
+}
+
+/* CALCULATE */
+
+function calculate(){
+
+try{
+
+let expression =
+display.value;
+
+let result =
+eval(expression);
+
+display.value = result;
+
+/* HISTORY */
+
+historyBox.innerHTML += `
+
+<p>
+${expression} = ${result}
+</p>
+
+`;
+
+}
+
+catch{
+
+alert("Invalid Calculation");
+
+}
+
+}
+
+/* KEYBOARD SUPPORT */
+
+document.addEventListener(
+"keydown",
+function(event){
+
+let key = event.key;
+
+if(
+(key >= 0 && key <= 9) ||
+key == "+" ||
+key == "-" ||
+key == "*" ||
+key == "/" ||
+key == "." ||
+key == "%"
+){
+
+appendValue(key);
+
+}
+
+else if(key == "Enter"){
+
+calculate();
+
+}
+
+else if(key == "Backspace"){
+
+deleteLast();
+
+}
+
+});
+
+</script>
+
+</body>
+
+</html>
